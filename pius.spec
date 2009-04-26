@@ -1,8 +1,8 @@
 # Sample spec file.
-# $Id: pius.spec,v 1.4 2009/04/22 14:18:13 jaymzh Exp $
+# $Id: pius.spec,v 1.5 2009/04/26 14:15:59 jaymzh Exp $
 
 %define name pius
-%define version	2.0.2
+%define version	2.0.3
 %define release 1
 
 Name: %{name}
