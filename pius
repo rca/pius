@@ -50,6 +50,9 @@ DEFAULT_OUT_DIR = '/tmp/pius_out'
 DEFAULT_MAIL_HOST = 'localhost'
 DEFAULT_MAIL_PORT = 25
 
+GMAIL_MAIL_HOST = 'smtp.gmail.com'
+GMAIL_MAIL_PORT = 587
+
 # Note the line with the email address on it below is intentionally
 # shorter than the rest to give it space to grow and still be < 80.
 DEFAULT_MIME_EMAIL_TEXT = '''Hello,
@@ -1205,6 +1208,12 @@ def main():
                     help='Encrypt output files with respective keys.')
   parser.add_option('-d', '--debug', action='store_true', dest='debug',
                     help='Enable debugging output.')
+  parser.add_option('-g', '--gmail', action='store',
+                    help='Send with this gmail address (this can also be a'
+                         ' Google Apps account).  Using -g is equivalent to'
+                         ' setting -m to the address given, setting'
+                         ' -H / -P to send via Gmail, and setting -S to send'
+                         ' email via TLS.')
   parser.add_option('-H', '--mail-host', dest='mail_host', metavar='HOSTNAME',
                     nargs=1, type='not_another_opt',
                     help='Hostname of SMTP server. [default: %default]')
@@ -1305,6 +1314,14 @@ def main():
 
   # Check input to make sure users want sane things
   check_options(parser, options, args)
+
+  # If the --gmail option is given, set the mail host and port
+  if options.gmail:
+      options.mail = options.gmail
+      options.mail_user = options.gmail
+      options.mail_host = GMAIL_MAIL_HOST
+      options.mail_port = GMAIL_MAIL_PORT
+      options.mail_tls = True
 
   # Check to see if the user wants to send email if they didn't specify
   if not options.mail:
